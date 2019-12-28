@@ -137,7 +137,7 @@ public class UserDAO {
 		
 		try {
 			Connection con = db.getConnection();
-			PreparedStatement stmt = con.prepareStatement("INSERT INTO users (role, name, surname, email, password, mobile, cv, city_id) VALUES (?,?,?,?,?,?,?,?) ");
+			PreparedStatement stmt = con.prepareStatement("INSERT INTO users (role, first_name, last_name, email, password, mobile, cv, city_id, address) VALUES (?,?,?,?,?,?,?,?,?) ");
 			stmt.setInt(1, user.getRole());
 			stmt.setString(2, user.getName());
 			stmt.setString(3, user.getSurname());
@@ -146,6 +146,7 @@ public class UserDAO {
 			stmt.setString(6, user.getMobile());
 			stmt.setString(7, user.getCv());
 			stmt.setInt(8, user.getCity().getId());
+			stmt.setString(9, user.getAddress());
 			stmt.executeUpdate();
 						
 		} catch(Exception ex) {

@@ -1,3 +1,21 @@
+<%@page import="java.util.*"%>
+<%@page import="photocruiters.daos.*" %>
+<%@page import="photocruiters.models.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	String errorMessage=null;
+	if(request.getAttribute("errorMessage")!=null)
+		errorMessage = request.getAttribute("errorMessage").toString();
+	
+	String message=null;
+	if(request.getAttribute("message")!=null)
+		message = request.getAttribute("message").toString();
+	
+	CityDAO cd = new CityDAO();
+	List<City> cities = cd.getCities();
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,19 +95,22 @@
                   <div class="control-group">
                     <label class="control-label" for="inputEmail">Email</label>
                     <div class="controls">
-                      <input type="text" id="inputEmail" name="inputEmail" placeholder="Email" required>
+                      <input type="text" id="inputEmail" name="email" placeholder="Email" required>
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label" for="inputMobile">Mobile Phone</label>
                     <div class="controls">
-                      <input type="text" id="inputMobile" name="inputMobile" placeholder="Mobile Phone" required>
+                      <input type="text" id="inputMobile" name="mobile" placeholder="Mobile Phone" required>
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label" for="city">City</label>
                     <div class="controls">
                       <select name="city">
+                      	<% for(City c : cities) { %>
+                      		<option value="<%=c.getId()%>"><%=c.getName() %></option>
+                      	<% } %>
                       </select>
                     </div>
                   </div>
@@ -105,19 +126,19 @@
                   <div class="control-group">
                     <label class="control-label" for="inputCV">Resume</label>
                     <div class="controls">
-                      <textarea id="inputCV" name="inputCV"></textarea>
+                      <textarea id="inputCV" name="cv"></textarea>
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label" for="inputSignupPassword">Password</label>
                     <div class="controls">
-                      <input type="password" id="inputSignupPassword" name="inputSignupPassword" placeholder="Password" required>
+                      <input type="password" id="inputSignupPassword" name="password" placeholder="Password" required>
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label" for="inputSignupPassword2">Confirm Password</label>
                     <div class="controls">
-                      <input type="password" id="inputSignupPassword2" name="inputSignupPassword" placeholder="Password" required>
+                      <input type="password" id="inputSignupPassword2" name="confirm" placeholder="Password" required>
                     </div>
                   </div>
                   <div class="control-group">
@@ -225,6 +246,19 @@
       </div>
     </header>
     <!-- end header -->
+    
+    <% if(errorMessage!=null && errorMessage!="") { %>
+	    <div class="alert alert-danger">
+			<%=errorMessage%>
+		</div>
+    <% } %>
+    
+    <% if(message!=null && message!="") { %>
+	    <div class="alert alert-success">
+			<%=message%>
+		</div>
+    <% } %>
+    
     <section id="featured">
       <!-- start slider -->
       <!-- Slider -->

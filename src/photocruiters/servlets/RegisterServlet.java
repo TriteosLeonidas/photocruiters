@@ -1,7 +1,11 @@
 package photocruiters.servlets;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +16,12 @@ import photocruiters.models.User;
 
 public class RegisterServlet extends HttpServlet {
 
+	protected ServletContext application;
+	
 	protected void service(HttpServletRequest request, HttpServletResponse response) {
+		
+		this.application = getServletContext();
+		
 		try {
 			ArrayList<String> errors = new ArrayList();
 	
@@ -27,8 +36,7 @@ public class RegisterServlet extends HttpServlet {
 			int role = Integer.parseInt(request.getParameter("role"));
 			int cityId = Integer.parseInt(request.getParameter("city"));
 			
-			City city = new City();
-			city.setId(cityId);
+			City city = new City(cityId, "");
 			
 			if(name.length()<3) {
 				errors.add("Name must be at least 3 characters long");
@@ -56,9 +64,38 @@ public class RegisterServlet extends HttpServlet {
 				UserDAO ud = new UserDAO();
 				User u = new User(name, surname, email, role, password, mobile, cv, address, city);
 				ud.register(u);
+				
+				
+				request.setAttribute("message", "User registered successfully");
+				RequestDispatcher dispatcher = application.getRequestDispatcher("/index.jsp");
+				dispatcher.forward(request, response);
+				
+			} else {
+				// This method forwards the request to the specified page, including message and model!
+				String message = "<ol>";
+				for(String error : errors) {
+					message = message = "<li>" + error + "</li>";
+				}
+				message = message + "</ol>";
+				
+				request.setAttribute("errorMessage", message);
+				
+				RequestDispatcher dispatcher = application.getRequestDispatcher("/index.jsp");
+				dispatcher.forward(request, response);
 			}
 		} catch (Exception ex) {
+			request.setAttribute("errorMessage", ex);
+			RequestDispatcher dispatcher = application.getRequestDispatcher("/index.jsp");
 			
+			try {
+				dispatcher.forward(request, response);
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
