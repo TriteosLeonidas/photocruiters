@@ -18,9 +18,35 @@ import java.sql.*;
  *
  */
 public class CityDAO {
+	
+	public City getCity(int cityId) throws Exception {
+		City result = null;
 		
+		DB db = new DB();
+		try {
+			Connection con = db.getConnection();
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM cities WHERE city_id=?");
+			stmt.setInt(1, cityId);
+			ResultSet rst = stmt.executeQuery();
+
+			while(rst.next()) {
+				result = new City(rst.getInt("city_id"), rst.getString("city_name"));
+			}
+			
+			rst.close();
+			return result;
+			
+		} catch(Exception ex) {
+			throw ex;
+		} finally {
+			db.close();
+			
+		}
+		
+	}
+	
 	/**
-	 * This method returns a List with all Users
+	 * This method returns a List with all Cities
 	 * 
 	 * @return List<User>
 	 */

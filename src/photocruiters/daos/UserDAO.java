@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import photocruiters.helpers.DB;
+import photocruiters.models.City;
 import photocruiters.models.User;
 import java.sql.*;
 
@@ -93,7 +94,7 @@ public class UserDAO {
 	 * @return User, the User object
 	 * @throws Exception, if the credentials are not valid
 	 */
-	/*public User authenticate(String email, String password) throws Exception {
+	public User authenticate(String email, String password) throws Exception {
 		
 		User u = null;
 		DB db = new DB();
@@ -108,7 +109,20 @@ public class UserDAO {
 			ResultSet rst = stmt.executeQuery();
 			
 			if(rst.next()) {
-				u = new User(rst.getString("name"), rst.getString("surname"), rst.getString("email"), rst.getInt("role"), rst.getString("password"));
+								
+				CityDAO cd = new CityDAO();
+				City c = cd.getCity(rst.getInt("city_id"));
+				
+				u = new User(	rst.getInt("user_id"),
+								rst.getString("first_name"), 
+								rst.getString("last_name"), 
+								rst.getString("email"), 
+								rst.getInt("role"), 
+								rst.getString("password"),
+								rst.getString("mobile"),
+								rst.getString("cv"),
+								rst.getString("address"),
+								c);
 			} else {
 				throw new Exception("Wrong username or password");
 			}
@@ -123,7 +137,7 @@ public class UserDAO {
 			
 		}	
 		
-	} //End of authenticate*/
+	} //End of authenticate
 	
 	/**
 	 * Register/create new User.

@@ -14,6 +14,9 @@
 	
 	CityDAO cd = new CityDAO();
 	List<City> cities = cd.getCities();
+	
+	User u = null;
+	u = (User)session.getAttribute("loggedInUser");
 %>
 
 <!DOCTYPE html>
@@ -73,7 +76,7 @@
                 <h4 id="mySignupModalLabel">Create an <strong>account</strong></h4>
               </div>
               <div class="modal-body">
-                <form class="form-horizontal" action="RegisterServlet" method="post">
+                <form class="form-horizontal" action="doRegister.jsp" method="post">
                   <div class="control-group">
                     <label class="control-label" for="name">Name</label>
                     <div class="controls">
@@ -160,17 +163,17 @@
                 <h4 id="mySigninModalLabel">Login to your <strong>account</strong></h4>
               </div>
               <div class="modal-body">
-                <form class="form-horizontal">
+                <form class="form-horizontal" action="doLogin.jsp" method="post">
                   <div class="control-group">
                     <label class="control-label" for="inputText">Username</label>
                     <div class="controls">
-                      <input type="text" id="inputText" placeholder="Username">
+                      <input type="text" id="inputText" placeholder="Username" name="username">
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label" for="inputSigninPassword">Password</label>
                     <div class="controls">
-                      <input type="password" id="inputSigninPassword" placeholder="Password">
+                      <input type="password" id="inputSigninPassword" placeholder="Password" name="password">
                     </div>
                   </div>
                   <div class="control-group">

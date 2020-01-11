@@ -2,6 +2,7 @@ package photocruiters.models;
 
 public class User {
 	
+	private int userid;
 	private String name;
 	private String surname;
 	private String address;
@@ -21,8 +22,8 @@ public class User {
 	 * @param username
 	 * @param password
 	 */
-	public User(String name, String surname, String email, int role, String password, String mobile, String cv, String address, City city) {
-				
+	public User(int userid, String name, String surname, String email, int role, String password, String mobile, String cv, String address, City city) {
+		this.userid = userid;	
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
@@ -140,6 +141,14 @@ public class User {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public int getUserid() {
+		return userid;
+	}
+
+	public void setUserid(int userid) {
+		this.userid = userid;
 	}	
 	
 	
