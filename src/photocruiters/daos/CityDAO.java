@@ -57,7 +57,7 @@ public class CityDAO {
 		
 		try {
 			Connection con = db.getConnection();
-			PreparedStatement stmt = con.prepareStatement("SELECT * FROM cities");
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM cities ORDER BY city_name");
 			ResultSet rst = stmt.executeQuery();
 
 			while(rst.next()) {
