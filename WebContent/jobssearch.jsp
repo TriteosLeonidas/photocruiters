@@ -1,3 +1,4 @@
+
 <%@page import="java.util.ArrayList"%>
 <%@page import="photocruiters.models.Photographer"%>
 <%@page import="photocruiters.models.PhotoCategory"%>
@@ -14,7 +15,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,8 +24,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 .avatar {
   vertical-align: middle;
@@ -42,6 +40,7 @@
 }
 </style>
 
+
   <!-- css -->
   <link href="https://fonts.googleapis.com/css?family=Noto+Serif:400,400italic,700|Open+Sans:300,400,600,700" rel="stylesheet">
   <link href="css2/bootstrap.css" rel="stylesheet" />
@@ -50,10 +49,10 @@
   <link href="css2/jcarousel.css" rel="stylesheet" />
   <link href="css2/flexslider.css" rel="stylesheet" />
   <link href="css2/style.css" rel="stylesheet" />
-  
-  	<link href="css2/checkboxes.css" rel="stylesheet" />
+
+    <link href="css2/checkboxes.css" rel="stylesheet" />
     <script src="js2/checkboxes.js"></script>
-  
+
   <!-- Theme skin -->
   <link href="skins/default.css" rel="stylesheet" />
   <!-- Fav and touch icons -->
@@ -64,28 +63,19 @@
   <link rel="shortcut icon" href="ico/favicon.png" />
 
   <!-- =======================================================
-    Theme Name: Flattern
-    Theme URL: https://bootstrapmade.com/flattern-multipurpose-bootstrap-template/
+    Theme Name: PhotoCruiters
+    Theme URL: https://bootstrapmade.com/PhotoCruiters-multipurpose-bootstrap-template/
     Author: BootstrapMade.com
     Author URL: https://bootstrapmade.com
   ======================================================= -->
-
-	<script type="text/javascript">
-		var expandedLocations=false;
-		var expandedCategories=false;
-		var expandedRatings=false
-	</script>
-
 </head>
 
 <body>
   <div id="wrapper">
 
-    
-    <%@include file="header.jsp" %>
-    
+   <%@include file="header.jsp" %>
+
     <section id="content">
-      <form method="post" action="doPhotographersSearch.jsp" id="searchPhotographersForm">
       <div class="container">
         <div class="row">
           <div class="span12">
@@ -97,30 +87,25 @@
                   </div>
                   <div class="text">
                     <h6>Τοποθεσία</h6>
-                     <!--
-                     <select class="form-control" name="location" multiple>
-                      	<option value="-1">Παρακαλώ επιλέξτε τοποθεσία...</option>
-                      </select>
-                      -->
-                      
-                      <div class="multiselect form-control">
-					    <div class="selectBox" onclick="showCheckboxes('city_checkboxes', expandedLocations)">
-					      <select name="city_checkboxes">
-					        <option id="selected_cities" value="" selected>Παρακαλώ επιλέξτε...</option>
-					      </select>
-					      <div class="overSelect"></div>
-					    </div>
-					    <div id="city_checkboxes" class="checkboxes">
-						    <% for(City c : cities) { %>
-	                      		<label for="city_<%=c.getId() %>">&nbsp;&nbsp;
-					        	<input type="checkbox" id="city_<%=c.getId() %>" name="<%=c.getName()%>" value="<%=c.getId()%>" onclick="updateSelected(this, 'selected_cities')" /><%=c.getName()%></label>
-	                      	<% } %>
-					    </div>
-					  </div>
-                      
+
+                    <div class="multiselect form-control">
+                      <div class="selectBox" onclick="showCheckboxes('city_checkboxes')">
+                        <select name="city_checkboxes">
+                          <option id="selected_cities" value="" selected>Παρακαλώ επιλέξτε...</option>
+                        </select>
+                        <div class="overSelect"></div>
+                      </div>
+                      <div id="city_checkboxes" class="checkboxes">
+                        <% for(City c : cities) { %>
+                            <label for="city_<%=c.getId() %>">&nbsp;&nbsp;
+                              <input type="checkbox" id="city_<%=c.getId() %>" name="<%=c.getName()%>" value="<%=c.getId()%>" onclick="updateSelected(this, 'selected_cities')" /><%=c.getName()%></label>
+                             <% } %>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
+
               <div class="span4">
                 <div class="box aligncenter">
                   <div class="aligncenter icon">
@@ -128,99 +113,72 @@
                   </div>
                   <div class="text">
                     <h6>Κατηγορία</h6>
-
-<!--                     <select class="form-control" id="category" name="category" multiple> -->
-<!--                     	<option value="-1">Παρακαλώ επιλέξτε κατηγορία...</option> -->
-                    	
-<!-- 	                </select> -->
-	                
-	                <div class="multiselect form-control">
-					    <div class="selectBox" onclick="showCheckboxes('photocat_checkboxes', expandedCategories)">
-					      <select name="photocat_checkboxes">
-					        <option id="selected_photocats" value="" selected>Παρακαλώ επιλέξτε...</option>
-					      </select>
-					      <div class="overSelect"></div>
-					    </div>
-					    <div id="photocat_checkboxes" class="checkboxes">
-						    <% for(PhotoCategory pc : photoCategories) { %>
-	                      		<label for="photocat_<%=pc.getId() %>">&nbsp;&nbsp;
-					        	<input type="checkbox" id="photocat_<%=pc.getId() %>" name="<%=pc.getName()%>" value="<%=pc.getId()%>" onclick="updateSelected(this, 'selected_photocats')" /><%=pc.getName()%></label>
-	                      	<% } %>
-					    </div>
-					  </div>
-	                
+                  
+                    <div class="multiselect form-control">
+                      <div class="selectBox" onclick="showCheckboxes('photocat_checkboxes')">
+                        <select name="photocat_checkboxes">
+                          <option id="selected_photocats" value="" selected>Παρακαλώ επιλέξτε...</option>
+                        </select>
+                        <div class="overSelect"></div>
+                      </div>
+                      <div id="photocat_checkboxes" class="checkboxes">
+                        <% for(PhotoCategory pc : photoCategories) { %>
+                          <label for="photocat_<%=pc.getId() %>">&nbsp;&nbsp;
+                          <input type="checkbox" id="photocat_<%=pc.getId() %>" name="<%=pc.getName()%>" value="<%=pc.getId()%>" onclick="updateSelected(this, 'selected_photocats')" /><%=pc.getName()%></label>
+                        <% } %>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
+              
               <div class="span4">
                 <div class="box aligncenter">
                   <div class="aligncenter icon">
-                    <i class="icon-star icon-circled icon-64 active"></i>
+                    <i class="icon-time icon-circled icon-64 active"></i>
                   </div>
                   <div class="text">
-                    <h6>Βαθμολογία</h6>
+                    <h6>Ώρες απασχόλησης</h6>
                     
-                
-                 <div class="multiselect form-control">
-					    <div class="selectBox" onclick="showCheckboxes('rating_checkboxes', expandedRatings)">
-					      <select name="rating_checkboxes">
-					        <option id="selected_ratings" value="" selected>Παρακαλώ επιλέξτε...</option>
-					      </select>
-					      <div class="overSelect"></div>
-					    </div>
-					    <div id="rating_checkboxes" class="checkboxes">
-						    <% for(int i = 1; i<=5; i++) { %>
-	                      		<label for="rating_<%=i%>">&nbsp;&nbsp;
-					        	<input type="checkbox" id="rating_<%=i%>" name="<%=i%>" value="<%=i%>" onclick="updateSelected(this, 'selected_ratings')" /><%=i%></label>
-	                      	<% } %>
-					    </div>
-					  </div>
-                
+                    <div class="multiselect form-control">
+                      <div class="selectBox" onclick="showCheckboxes('duration_checkboxes')">
+                        <select name="duration_checkboxes">
+                          <option id="selected_duration" value="" selected>Παρακαλώ επιλέξτε...</option>
+                        </select>
+                        <div class="overSelect"></div>
+                      </div>
+                      <div id="duration_checkboxes" class="checkboxes">
+                        <% for(int i = 1; i<=5; i++) { %>
+                              <label for="duration_<%=i%>">&nbsp;&nbsp;
+                          <input type="checkbox" id="duratio_<%=i%>" name="<%=i%>" value="<%=i%>" onclick="updateSelected(this, 'selected_duration')" /><%=i%></label>
+                        <% } %>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
+
 
 
         <div class="row">
           <div class="span12">
             <div class="big-cta">
               <div class="cta-text">
-                <h3>Ξεκινήστε την αναζήτηση <span class="highlight"><strong>Φωτογράφου</strong></span> που επιθυμείτε!</h3>
+                <h4>Ξεκινήστε την αναζήτηση <span class="highlight"><strong>Εργασιακού Project</strong></span> που επιθυμείτε!</h4>
               </div>
-              <div class="cta floatright">
-                <a class="btn btn-large btn-theme btn-rounded" href="#" onclick="document.getElementById('searchPhotographersForm').submit();">Αναζήτηση</a>
+              <div class="cta floatmiddle">
+                <a class="btn btn-large btn-theme btn-rounded" href="#">Αναζήτηση</a>
               </div>
             </div>
           </div>
         </div>
-</form>
 
-<!--  Results -->
 
-<% if(results!=null && results.size()>0) { %>
-	<% for(Photographer p : results) { %>
 
-		<div class="row">
-		  <div class="span4">
-			  <img src="img/avatar2.png" alt="Avatar" style="width:90px">
-		  </div>
-		  <div class="span4">
-		  	<p><span><%=p.getName()%>&nbsp;<%=p.getSurname()%></span></p>
-		  	<p><%=p.getCity().getName() %></p>
-		  </div>
-		  <div class="span4">
-		  	<p>Κατηγορίες: 
-		  		<% for(PhotoCategory pc : p.getRelatedPhotoCategories()) { %>
-		  			<h3><span class="badge badge-secondary"><%=pc.getName() %></span></h3>
-		  		<% } %>
-		  	</p>
-		  </div>
-		</div>
-		<!-- divider -->
+		 <!-- divider -->
         <div class="row">
           <div class="span12">
             <div class="solidline">
@@ -228,20 +186,14 @@
           </div>
         </div>
         <!-- end divider -->
-	<% } %>
-
-<% } else { %>
-	<div class="row">
-		<div class="span12">Δεν βρέθηκαν φωτογράφοι με τα συγκεκριμένα κριτήρια αναζήτησης</div>
-	</div>
-<% } %>
-
-       
-
-<!--  end of results -->
-
-
-
+        <!-- divider -->
+        <div class="row">
+          <div class="span12">
+            <div class="solidline">
+            </div>
+          </div>
+        </div>
+        <!-- end divider -->
 
       </div>
     </section>
@@ -315,7 +267,7 @@
                     All the links in the footer should remain intact.
                     You can delete the links only if you purchased the pro version.
                     Licensing information: https://bootstrapmade.com/license/
-                    Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Flattern
+                    Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=PhotoCruiters
                   -->
                 </div>
               </div>

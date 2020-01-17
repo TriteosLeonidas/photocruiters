@@ -42,4 +42,39 @@ public class PhotoCategoryDAO {
 		}
 		
 	}
+	
+	public ArrayList<PhotoCategory> getPhotoCategoriesForPhotographer(int userId) throws Exception {
+		
+		ArrayList<PhotoCategory> results = new ArrayList<PhotoCategory>();
+		DB db = new DB();
+		
+		try {
+			
+			String sqlStmt = 	"SELECT * FROM photo_categories "
+							+ 	" INNER JOIN users_photocategories ON photo_categories.photo_categories_id = users_photocategories.photo_categories_id "
+							+	" WHERE users_photocategories.user_id=?"
+							+ 	" ORDER BY photo_categories_name";
+			
+			
+			Connection con = db.getConnection();
+			PreparedStatement stmt = con.prepareStatement(sqlStmt);
+			stmt.setInt(1, userId);
+			ResultSet rst = stmt.executeQuery();
+
+			while(rst.next()) {
+				PhotoCategory p = new PhotoCategory(rst.getInt("photo_categories_id"), rst.getString("photo_categories_name"));
+				results.add(p);
+			}
+			
+			rst.close();
+			return results;
+			
+		} catch(Exception ex) {
+			throw ex;
+		} finally {
+			db.close();
+			
+		}
+		
+	}
 }

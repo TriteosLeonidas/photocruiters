@@ -12,6 +12,17 @@
 	u = (User)session.getAttribute("loggedInUser");
 %>
 
+<%! 
+	public String isActivePage(String pageName) {
+		if(this.getClass().getSimpleName().replaceAll("_",".").contains(pageName))
+			return "active";
+		else
+			return "";
+	}
+
+	
+%>
+
 <!-- start header -->
     <header>
       <div class="container ">
@@ -185,7 +196,6 @@
             <!-- end reset modal -->
           </div>
         </div>
-        
         <div class="row">
           <div class="span4">
             <div class="logo">
@@ -199,16 +209,16 @@
                   <ul class="nav topnav">
                     <!-- Case 1: Unregistered user -->
 	                	<% if(u==null) { %> 
-		                    <li class="active">
+		                    <li class="<%=isActivePage("index.jsp")%>">
 		                      <a href="<%=request.getContextPath() %>/index.jsp"><p style="font-size:15px">Αρχικη</p></a>
 		                    </li>
-		                    <li class="">
+		                    <li class="<%=isActivePage("phsearch.jsp")%>">
 		                      <a href="<%=request.getContextPath() %>/phsearch.jsp"><p style="font-size:15px">Αναζητηση φωτογραφων</p></a>
 		                    </li>
-		                    <li class="">
+		                    <li class="<%=isActivePage("jobssearch.jsp")%>">
 		                      <a href="<%=request.getContextPath() %>/jobssearch.jsp"><p style="font-size:15px">Αναζητηση εργασιων</p></a>
 		                    </li>
-		                    <li>
+		                    <li class="<%=isActivePage("about.jsp")%>">
 		                      <a href="<%=request.getContextPath() %>/about.jsp"><p style="font-size:15px">Σχετικα με εμας</p></a>
 		                    </li>
 	                    <% } %>
