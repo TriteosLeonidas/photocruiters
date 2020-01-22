@@ -206,13 +206,21 @@
 
 		<div class="row">
 		  <div class="span4">
-			  <img src="img/avatar2.png" alt="Avatar" style="width:90px">
+			  <img src="img/icon.jpg" alt="Avatar" style="width:90px">
 		  </div>
 		  <div class="span4">
-		  	<p><span><%=p.getName()%>&nbsp;<%=p.getSurname()%></span></p>
+		  	<%if(u!=null) { %>
+			  	<a href="<%=request.getContextPath() %>/profilePhotographer.jsp?id=<%=p.getUserid()%>">
+			  		<p><span><%=p.getName()%>&nbsp;<%=p.getSurname()%></span></p>
+			  	</a>
+		  	<% } else { %>
+		  		<p><span><%=p.getName()%>&nbsp;<%=p.getSurname()%></span></p>
+		  	<% } %>
+		  </div>
+		  <div class="span2">
 		  	<p><%=p.getCity().getName() %></p>
 		  </div>
-		  <div class="span4">
+		  <div class="span2">
 		  	<p>Κατηγορίες: 
 		  		<% for(PhotoCategory pc : p.getRelatedPhotoCategories()) { %>
 		  			<h3><span class="badge badge-secondary"><%=pc.getName() %></span></h3>

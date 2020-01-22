@@ -1,12 +1,18 @@
 package photocruiters.models;
-
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Job {
 
 	private int job_id;
 	private int photographer_id;
+	private Photographer photographer;
+	private PhotoCategory relatedCategory;
 	private int employer_id;
+	private User employer;
+	
+	private ArrayList<JobInterested> jobsInterested = new ArrayList<JobInterested>();
+	
 	private String description;
 	private Date job_date;
 	private int job_duration;
@@ -25,16 +31,16 @@ public class Job {
 	 * @param
 	 * @param
 	 */
-	public Job(int job_id, int photographer_id, int employer_id, String description, int job_duration, int job_category, float price, String review, int rating, int status) {
+	public Job(int job_id, int employer_id, String description, Date job_date, int job_duration, int job_category, float price, String review, int status) {
 		this.job_id = job_id;
-		this.photographer_id = photographer_id;
+		//this.photographer_id = photographer_id;
 		this.employer_id = employer_id;
 		this.description = description;
+		this.job_date = job_date;
 		this.job_category = job_category;
 		this.job_duration = job_duration;
 		this.price = price;
 		this.review= review;
-		this.rating = rating;
 		this.status = status;
 	}
 
@@ -148,5 +154,55 @@ public class Job {
 	public void setJobs_id(int jobs_id) {
 		this.job_id = job_id;
 	}
+
+	public Date getJob_date() {
+		return job_date;
+	}
+
+	public void setJob_date(Date job_date) {
+		this.job_date = job_date;
+	}
+
+	public int getJob_id() {
+		return job_id;
+	}
+
+	public void setJob_id(int job_id) {
+		this.job_id = job_id;
+	}
+
+	public Photographer getPhotographer() {
+		return photographer;
+	}
+
+	public void setPhotographer(Photographer photographer) {
+		this.photographer = photographer;
+	}
+
+	public User getEmployer() {
+		return employer;
+	}
+
+	public void setEmployer(User employer) {
+		this.employer = employer;
+	}
+
+	public PhotoCategory getRelatedCategory() {
+		return relatedCategory;
+	}
+
+	public void setRelatedCategory(PhotoCategory relatedCategory) {
+		this.relatedCategory = relatedCategory;
+	}
+
+	public ArrayList<JobInterested> getJobsInterested() {
+		return jobsInterested;
+	}
+
+	public void setJobsInterested(ArrayList<JobInterested> jobsInterested) {
+		this.jobsInterested = jobsInterested;
+	}
+	
+	
 
 } //End of class

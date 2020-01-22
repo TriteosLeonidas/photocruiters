@@ -1,4 +1,6 @@
 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="photocruiters.models.Job"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="photocruiters.models.Photographer"%>
 <%@page import="photocruiters.models.PhotoCategory"%>
@@ -7,9 +9,9 @@
 	PhotoCategoryDAO phc = new PhotoCategoryDAO();
 	List<PhotoCategory> photoCategories = phc.getPhotoCategories();
 	
-	List<Photographer> results = new ArrayList<Photographer>();
+	List<Job> results = new ArrayList<Job>();
 	if(request.getAttribute("results")!=null)
-		results = (List<Photographer>)request.getAttribute("results");
+		results = (List<Job>)request.getAttribute("results");
 	
 %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -85,6 +87,7 @@
                   <div class="aligncenter icon">
                     <i class="icon-home icon-circled icon-64 active"></i>
                   </div>
+                  <form action="doJobSearch.jsp" method="post" id="searchJobsForm">
                   <div class="text">
                     <h6>Τοποθεσία</h6>
 
@@ -157,6 +160,23 @@
                   </div>
                 </div>
               </div>
+              <br>
+              <br>
+              <br>
+              <div class="span12">
+                <div class="box aligncenter">
+                  <div class="aligncenter icon">
+                    <i class="icon-calendar icon-circled icon-64 active"></i>
+                  </div>
+                  <div class="text">
+                    <h6>Ημερομηνία Εργασίας</h6>
+                    
+                    <input type="date" name="job_date">
+                      
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -167,33 +187,70 @@
           <div class="span12">
             <div class="big-cta">
               <div class="cta-text">
-                <h4>Ξεκινήστε την αναζήτηση <span class="highlight"><strong>Εργασιακού Project</strong></span> που επιθυμείτε!</h4>
+                <h3>Ξεκινήστε την αναζήτηση <span class="highlight"><strong>Εργασιακού Project</strong></span> που επιθυμείτε!</h3>
               </div>
-              <div class="cta floatmiddle">
-                <a class="btn btn-large btn-theme btn-rounded" href="#">Αναζήτηση</a>
+              <div class="cta floatright">
+                <a class="btn btn-large btn-theme btn-rounded" href="#" onclick="document.getElementById('searchJobsForm').submit();">Αναζήτηση</a>
               </div>
             </div>
           </div>
         </div>
-
+        
+        
+        
+		</form>
 
 
 		 <!-- divider -->
         <div class="row">
           <div class="span12">
             <div class="solidline">
+            	
+            	<% if(results.size() > 0) { %>
+            		
+	            		<table border="1"">
+	            			<tr>
+		            			<th>Εργοδότης</th>
+		            			<th>Περιοχή</th>
+		            			<th>Περιγραφή</th>
+		            			<th>Ημερομηνία</th>
+		            			<th>Διάρκεια</th>
+		            			<th>Κατηγορία</th>
+		            			<% if(u!=null) { %>
+		            				<th>Υποβολή προσφοράς</th>
+	            				<% } %>
+		            		</tr>
+		            		<% for (Job j : results) { 
+		            			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		            		%>
+		            			<tr>
+		            				<td><%=j.getEmployer().getName() %>&nbsp;<%=j.getEmployer().getSurname() %></td>
+		            				<td><%=j.getEmployer().getCity().getName() %></td>
+		            				<td><%=j.getDescription() %></td>
+		            				<td><%=sdf.format(j.getJob_date()) %></td>
+		            				<td><%=j.getJob_duration() %></td>
+		            				<td><%=j.getRelatedCategory()!=null ? j.getRelatedCategory().getName() : "" %></td>
+		            				<% if(u!=null) { %>
+		            				<td>
+		            					<form action="doSubmitOffer.jsp" method="post" id="offerForm<%=j.getJob_id()%>">
+			            					<input type="number" step="0.01" min="0" id="price" name="price" placeholder="Υποβολή προσφοράς">
+			            					<input type="hidden" name="jobId" value="<%=j.getJob_id() %>">
+			            					<a class="btn btn-large btn-theme btn-rounded" href="#" onclick="document.getElementById('offerForm<%=j.getJob_id()%>').submit();">Υποβολή</a>
+		            					</form>
+		            				</td>
+		            				<% } %>
+		            			</tr>
+		            		<% } %>
+	            		</table>
+            		
+            	<% } else { %>
+            		<h2>Δεν βρέθηκαν εργασίες με τα κριτήρια αναζήτησης που εισάγατε!!!</h2>
+            	<% } %>
             </div>
           </div>
         </div>
         <!-- end divider -->
-        <!-- divider -->
-        <div class="row">
-          <div class="span12">
-            <div class="solidline">
-            </div>
-          </div>
-        </div>
-        <!-- end divider -->
+
 
       </div>
     </section>

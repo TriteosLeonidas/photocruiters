@@ -1,3 +1,4 @@
+<%@page import="java.io.OutputStream"%>
 <%@page import="java.util.*"%>
 <%@page import="photocruiters.daos.*" %>
 <%@page import="photocruiters.models.*" %>
@@ -13,14 +14,28 @@
 	if(request.getAttribute("message")!=null)
 		message = request.getAttribute("message").toString();
 
-
-  PhotoCategoryDAO phc = new PhotoCategoryDAO();
-  List<PhotoCategory> photoCategories = phc.getPhotoCategories();
-
-  List<Photographer> results = new ArrayList<Photographer>();
-  if(request.getAttribute("results")!=null)
-    results = (List<Photographer>)request.getAttribute("results");
-
+	PhotographersDAO phDao = new PhotographersDAO();
+	
+	int id=-1;
+	try {
+		id=Integer.parseInt(request.getParameter("id"));
+	} catch(Exception ex) {
+		// do nothing
+	}
+	
+	Photographer p = phDao.getPhotographer(id);
+	List<Integer> photoIds = new ArrayList<Integer>();
+	
+	if(p==null) {
+		request.setAttribute("errorMessage", "Photographer profile not found!");
+		RequestDispatcher dispatcher = application.getRequestDispatcher("/index.jsp");
+		dispatcher.forward(request, response);
+	} else {
+		photoIds = phDao.getPhotoIdsForPhotographer(p.getUserid());
+	}
+	
+	
+	
 %>
 
 <!DOCTYPE html>
@@ -78,22 +93,35 @@
               <div class="top-wrapper">
                 <div class="post-heading">
                   <!-- dynamiko-->
-                  <h3><a href="#">Μαρίνος Κωνσταντίνου</a></h3>
+                  <h3><a href="#"><%=p.getName() %> <%=p.getSurname() %></a></h3>
                 </div>
 
                 <!-- start flexslider -->
                 <!-- dynamiko-->
                 <div class="flexslider">
                   <ul class="slides">
-                    <li>
-                      <img src="img/works/full/image-01-full.jpg" alt="" />
-                    </li>
+                    <% if (photoIds!=null && photoIds.size() > 0) { %>
+                    	<% for(Integer i : photoIds) { 
+	                    		byte[] imgData = phDao.getImage(i);
+	                    		
+	                    		byte[] encodeBase64 = Base64.getEncoder().encode(imgData);
+	                    		String encoded = new String(encodeBase64, "UTF-8");
+	                    		encoded = "data:image/jpg;base64," + encoded;
+                    		%>
+		                    
+		                    <li>
+		                      <img src="<%=encoded%>" alt="" />
+		                    </li>
+                    	<% } %>
+                    <% } %>
+                    <!-- 
                     <li>
                       <img src="img/works/full/image-02-full.jpg" alt="" />
                     </li>
                     <li>
                       <img src="img/works/full/image-03-full.jpg" alt="" />
                     </li>
+                     -->
                   </ul>
                 </div>
                 <!-- end flexslider -->
@@ -107,20 +135,29 @@
                 <h5 class="widgetheading">Πληροφορίες Προφίλ</h5>
                 <ul class="folio-detail">
                   <!-- dynamiko-->
-                  <li><label>Ειδικότητα Φωτογράφου :</label> ...</li>
+                  <li><label>Ειδικότητα Φωτογράφου :</label>
+                  	<ul>
+                  		<% for(PhotoCategory pc : p.getRelatedPhotoCategories()) { %>
+                  			<li><%=pc.getName() %></li>
+                  		<% } %>
+                  	</ul>
+                  <li> 
+
+
+	
                   <!-- dynamiko-->
-                  <li><label>Περιοχή :</label>...</li>
+                  <li><label>Περιοχή :</label>&nbsp;<%=p.getAddress() %>&nbsp;, <%=p.getCity().getName() %></li>
                   <!-- dynamiko-->
-                  <li><label>Email : </label> ... </li>
+                  <li><label>Email : </label>&nbsp;<%=p.getEmail() %></li>
                   <!-- dynamiko-->
-                  <li><label>Τηλέφωνο επικοινωνίας : </label>...</li>
+                  <li><label>Τηλέφωνο επικοινωνίας : </label>&nbsp;<%=p.getMobile() %></li>
                 </ul>
               </div>
               <div class="widget">
                 <h5 class="widgetheading">Βιογραφικό</h5>
 <!-- dynamiko-->
                 <p>
-					Ερασιτέχνης φωτογράφος
+					<%=p.getCv() %>
                 </p>
               </div>
             </aside>

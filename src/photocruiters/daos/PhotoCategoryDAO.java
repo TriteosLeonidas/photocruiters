@@ -11,6 +11,33 @@ import photocruiters.models.PhotoCategory;
 
 public class PhotoCategoryDAO {
 
+	public PhotoCategory getPhotoCategory(int id) throws Exception {
+		
+		PhotoCategory result = null;
+		DB db = new DB();
+		
+		try {
+			Connection con = db.getConnection();
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM photo_categories WHERE photo_categories_id=?");
+			stmt.setInt(1, id);
+			ResultSet rst = stmt.executeQuery();
+
+			while(rst.next()) {
+				result = new PhotoCategory(rst.getInt("photo_categories_id"), rst.getString("photo_categories_name"));
+			}
+			
+			rst.close();
+			return result;
+			
+		} catch(Exception ex) {
+			throw ex;
+		} finally {
+			db.close();
+			
+		}
+		
+	}
+	
 	/**
 	 * This method returns a List with all Photo Categories
 	 * 

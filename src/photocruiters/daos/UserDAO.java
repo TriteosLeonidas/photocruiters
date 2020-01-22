@@ -19,59 +19,37 @@ import java.sql.*;
  */
 public class UserDAO {
 		
-	/**
-	 * This method returns a List with all Users
-	 * 
-	 * @return List<User>
-	 */
-	/*public List<User> getUsers() throws Exception {
-		
-		List<User> users = new ArrayList<User>();
-		DB db = new DB();
-		
-		try {
-			Connection con = db.getConnection();
-			PreparedStatement stmt = con.prepareStatement("SELECT * FROM users");
-			ResultSet rst = stmt.executeQuery();
 
-			while(rst.next()) {
-				User u = new User(rst.getString("name"), rst.getString("surname"), rst.getString("email"), rst.getInt("role"), rst.getString("password"));
-				users.add(u);
-			}
-			
-			rst.close();
-			return users;
-			
-		} catch(Exception ex) {
-			throw ex;
-		} finally {
-			db.close();
-			
-		}
-		
-	} //End of getUsers*/
 
-	/**
-	 * Search user by username
-	 * 
-	 * @param username, String
-	 * @return User, the User object
-	 * @throws Exception, if user not found
-	 */
-	/*public User findUser(String email) throws Exception {
-				
+	public User getUser(int id) throws Exception {
 		User u = null;
 		DB db = new DB();
 		
 		try {
+			
 			Connection con = db.getConnection();
-			PreparedStatement stmt = con.prepareStatement("SELECT * FROM users WHERE email=?");
-			stmt.setString(1, email);
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM users WHERE user_id=?");
+			stmt.setInt(1, id);
 			
 			ResultSet rst = stmt.executeQuery();
-
-			while(rst.next()) {
-				u = new User(rst.getString("name"), rst.getString("surname"), rst.getString("email"), rst.getInt("role"), rst.getString("password"));
+			
+			if(rst.next()) {
+								
+				CityDAO cd = new CityDAO();
+				City c = cd.getCity(rst.getInt("city_id"));
+				
+				u = new User(	rst.getInt("user_id"),
+								rst.getString("first_name"), 
+								rst.getString("last_name"), 
+								rst.getString("email"), 
+								rst.getInt("role"), 
+								rst.getString("password"),
+								rst.getString("mobile"),
+								rst.getString("cv"),
+								rst.getString("address"),
+								c);
+			} else {
+				throw new Exception("Wrong username or password");
 			}
 			
 			rst.close();
@@ -82,10 +60,9 @@ public class UserDAO {
 		} finally {
 			db.close();
 			
-		}
-		
-	} //End of findUser*/
-
+		}	
+	}
+	
 	/**
 	 * This method is used to authenticate a user.
 	 * 

@@ -32,7 +32,7 @@
         <div class="row nomargin">
           <div class="span12">
             <div class="headnav">
-            	Συνδεδεμένος ως <%=u.getEmail() %>&nbsp;&nbsp;
+            	Συνδεδεμένος ως <%=u.getName() %>&nbsp;&nbsp;
             	<a href="<%=request.getContextPath() %>/doLogout.jsp"><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
          <% } else { %>   
          
@@ -226,16 +226,16 @@
                     
                     <!-- Case 2: Photographer -->
 	                    <% if(u!=null && u.getRole()==1) { %>
-		                    <li class="active">
+		                    <li class="<%=isActivePage("index.jsp")%>">
 		                      <a href="<%=request.getContextPath() %>/index.jsp"><p style="font-size:15px">Αρχικη</p></a>
 		                    </li>
-		                    <li class="">
-		                      <a href="<%=request.getContextPath() %>/profile-fotografou.jsp"><p style="font-size:15px">Το Προφιλ μου</p></a>
+		                    <li class="<%=isActivePage("profilePhotographer.jsp")%>">
+		                      <a href="<%=request.getContextPath() %>/profilePhotographer.jsp?id=<%=u.getUserid()%>"><p style="font-size:15px">Το Προφιλ μου</p></a>
 		                    </li>
-		                    <li class="">
+		                    <li class="<%=isActivePage("jobssearch.jsp")%>">
 		                      <a href="<%=request.getContextPath() %>/jobssearch.jsp"><p style="font-size:15px">αναζητηση εργασιων</p></a>
 		                    </li>
-		                    <li>
+		                    <li class="<%=isActivePage("about.jsp")%>">
 		                      <a href="<%=request.getContextPath() %>/about.jsp"><p style="font-size:15px">σχετικα με εμας</p></a>
 		                    </li>
 		                 <% } %>
@@ -243,16 +243,16 @@
                     
                     <!-- Case 3: Employer -->
 	                    <% if(u!=null && u.getRole()==2) { %>
-		                    <li class="active">
+		                    <li class="<%=isActivePage("index.jsp")%>">
 		                      <a href="<%=request.getContextPath() %>/index.jsp"><p style="font-size:15px">Αρχικη</p></a>
 		                    </li>
-		                    <li class="">
+		                    <li class="<%=isActivePage("phsearch.jsp")%>">
 		                      <a href="<%=request.getContextPath() %>/phsearch.jsp"><p style="font-size:15px">Αναζητηση φωτογραφων</p></a>
 		                    </li>
-		                    <li class="">
+		                    <li class="<%=isActivePage("myjobs.jsp")%>">
 		                      <a href="<%=request.getContextPath() %>/myjobs.jsp"><p style="font-size:15px">Οι εργασιες μου</p></a>
 		                    </li>
-		                    <li>
+		                    <li class="<%=isActivePage("about.jsp")%>">
 		                      <a href="<%=request.getContextPath() %>/about.jsp"><p style="font-size:15px">σχετικα με εμας</p></a>
 		                    </li>
 	                    <% } %>
